@@ -73,15 +73,22 @@ The pipeline executes the following stages:
 
 ## Output Structure
 
-Results are stored in the `output/` directory:
+Results are stored in the `output/example` directory:
 
 ```text
 output/
-├── subfinder.txt
-├── assetfinder.txt
-├── amass.txt
-├── all.txt
-└── alive.txt
+├── example/
+│   ├── subfinder.txt
+│   ├── assetfinder.txt
+│   ├── amass.txt
+│   ├── all.txt
+│   └── alive.txt
+└── otherexample/
+    ├── subfinder.txt
+    ├── assetfinder.txt
+    ├── amass.txt
+    ├── all.txt
+    └── alive.txt
 ```
 
 | File | Description |
