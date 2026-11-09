@@ -1,0 +1,11 @@
+# Vim / Nano swap files
+*.swp
+*.swo
+*.swn
+*~
+
+# Logs
+*.log
+
+# Outputs de recon
+output/
