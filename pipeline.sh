@@ -1,24 +1,27 @@
 #!/bin/bash
 
-domain="$1"
-dir=$(echo "$domain" | cut -d "." -f 1)
+pipeline(){
+	local domain="$1"
+	local dir=$(echo "$domain" | cut -d "." -f 1)
+	local output_dir="$GLADOS_DIR/output/$dir"
 
-mkdir -p output
-mkdir -p "output/$dir"
+	mkdir -p "$output_dir"
 
-echo "[+] Iniciando enumeração..."
+	echo "[+] Iniciando enumeração..."
 
-subfinder -d "$domain" -silent -o "output/$dir/subfinder.txt" > /dev/null 2>&1 &
-assetfinder --subs-only "$domain" > "output/$dir/assetfinder.txt" 2>/dev/null &
-amass enum -D "$domain" > "output/$dir/amass.txt" 2>/dev/null &
+	subfinder -d "$domain" -silent -o "$output_dir/subfinder.txt" > /dev/null 2>&1 &
+	assetfinder --subs-only "$domain" > "$output_dir/assetfinder.txt" 2>/dev/null &
+	amass enum -D "$domain" > "$output_dir/amass.txt" 2>/dev/null &
 
-wait
+	wait
 
-echo "[+] Unificando resultados..."
+	echo "[+] Unificando resultados..."
 
-sort -u "output/$dir/subfinder.txt" "output/$dir/assetfinder.txt" "output/$dir/amass.txt" > "output/$dir/all.txt"
+	sort -u "$output_dir/subfinder.txt" "$output_dir/assetfinder.txt" "$output_dir/amass.txt" > "$output_dir/all.txt"
 
-httpx -l "output/$dir/all.txt" -o "output/$dir/alive.txt" > /dev/null 2>&1
+	httpx -l "$output_dir/all.txt" -o "$output_dir/alive.txt" > /dev/null 2>&1
 
-echo "[+] Enumeração finalizada."
-echo "[+] Você pode visualizar o resultado da enumeração no diretório output/${dir}"
+	echo "[+] Enumeração finalizada."
+	echo "[+] Você pode visualizar o resultado da enumeração no diretório $output_dir"
+}
+
